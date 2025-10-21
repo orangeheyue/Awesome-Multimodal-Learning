@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>气味多模态人工智能研究综述</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#8B5CF6',
+                        accent: '#A78BFA',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'Georgia', 'serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(99, 102, 241, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .bg-gradient-tech {
+                background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fa fa-flask text-primary text-2xl"></i>
+                    <h1 class="text-xl font-bold text-primary hidden sm:block">气味多模态AI研究</h1>
+                </div>
+                
+                <!-- 桌面端导航 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#summary" class="text-gray-600 hover:text-primary transition-colors font-medium">摘要</a>
+                    <a href="#introduction" class="text-gray-600 hover:text-primary transition-colors font-medium">引言</a>
+                    <a href="#technical-foundation" class="text-gray-600 hover:text-primary transition-colors font-medium">技术基础</a>
+                    <a href="#classic-research" class="text-gray-600 hover:text-primary transition-colors font-medium">经典研究</a>
+                    <a href="#current-methods" class="text-gray-600 hover:text-primary transition-colors font-medium">热门方法</a>
+                    <a href="#applications" class="text-gray-600 hover:text-primary transition-colors font-medium">应用领域</a>
+                    <a href="#future-trends" class="text-gray-600 hover:text-primary transition-colors font-medium">未来展望</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden text-gray-600 hover:text-primary focus:outline-none">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="md:hidden bg-white shadow-lg absolute w-full left-0 top-full transform -translate-y-full opacity-0 transition-all duration-300 pointer-events-none">
+            <div class="container mx-auto px-4 py-3">
+                <nav class="flex flex-col space-y-3">
+                    <a href="#summary" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">摘要</a>
+                    <a href="#introduction" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">引言</a>
+                    <a href="#technical-foundation" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">技术基础</a>
+                    <a href="#classic-research" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">经典研究</a>
+                    <a href="#current-methods" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">热门方法</a>
+                    <a href="#applications" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">应用领域</a>
+                    <a href="#future-trends" class="text-gray-600 hover:text-primary py-2 transition-colors font-medium">未来展望</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="bg-gradient-tech text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-shadow">气味多模态人工智能研究综述</h1>
+                <p class="text-lg md:text-xl text-gray-200 mb-8">从单模态感知到多模态融合的技术演进与应用创新</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#summary" class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-glow">
+                        <i class="fa fa-book mr-2"></i>开始阅读
+                    </a>
+                    <a href="#applications" class="bg-transparent border-2 border-white hover:bg-white/10 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300">
+                        <i class="fa fa-lightbulb-o mr-2"></i>查看应用
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- 摘要部分 -->
+        <section id="summary" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-file-text-o text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">摘要</h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态人工智能作为一个新兴的跨学科研究领域，通过融合嗅觉、视觉、文本、声音、味觉等多种感官模态，实现了对气味信息的全方位感知、理解与生成。本文系统梳理了气味多模态AI的技术基础、经典研究工作和当前热门方法，重点分析了其在医疗诊断、环境感知、香水研发等关键应用领域的最新进展。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        研究表明，从1982年Persaud和Dodd提出电子鼻概念至今，该领域已从传统的单模态传感器阵列发展为基于图神经网络、生成对抗网络、大语言模型等前沿技术的多模态融合系统。特别是2022年Osmo公司提出的主要气味图谱（POM）和2025年基于扩散模型的气味生成技术，标志着该领域从识别走向生成的重要转变。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        在应用层面，电子鼻技术在疾病诊断中展现出80-94%的准确率，在环境监测中实现了24小时实时预警，在香水研发中推动了个性化配方设计的商业化进程。展望未来，随着传感器技术的微型化、多模态融合算法的优化以及标准化体系的建立，气味多模态AI有望在2030年形成超过220亿美元的市场规模，为元宇宙、智能医疗、智能制造等领域带来革命性变革。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 引言部分 -->
+        <section id="introduction" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-info-circle text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">引言</h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        人类的感知系统是一个复杂的多模态融合网络，其中嗅觉作为最古老的感官之一，在日常生活中扮演着不可或缺的角色。然而，与视觉和听觉相比，嗅觉的数字化和智能化进程明显滞后。传统的气味检测主要依赖于单一的化学传感器或气相色谱-质谱（GC-MS）等大型分析仪器，存在检测速度慢、成本高、无法实时监测等局限性。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        近年来，随着人工智能技术的快速发展，特别是深度学习、图神经网络、生成对抗网络等先进算法的出现，为气味感知和生成带来了新的机遇。与此同时，多模态AI技术的兴起，使得整合嗅觉、视觉、文本、声音、味觉等多种感官信息成为可能。这种多模态融合不仅能够提高气味识别的准确性和鲁棒性，还能够实现更加丰富的交互体验和应用场景。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态AI的研究意义体现在多个方面。首先，在基础科学研究中，该技术有助于深入理解嗅觉感知的神经机制，为神经科学和心理学研究提供新的工具和方法。其次，在应用层面，气味多模态AI在医疗诊断、环境监测、食品质量控制、香水研发等领域展现出巨大的应用潜力。特别是在医疗领域，呼气中的挥发性有机化合物（VOCs）包含了丰富的生理病理信息，电子鼻技术的非侵入性检测优势使其成为疾病早期筛查的重要手段。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        本文旨在全面梳理气味多模态AI的研究现状与发展趋势。我们将首先阐述气味多模态AI的技术基础和研究范围，然后系统回顾该领域的经典研究工作，重点分析当前热门的研究方法，深入探讨其在各个应用领域的最新进展，最后展望未来的研究方向和发展前景。通过这一系统性的综述，我们期望为相关研究人员和产业界人士提供全面的技术参考和发展指引。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术基础部分 -->
+        <section id="technical-foundation" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-cogs text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">一、气味多模态AI的技术基础与研究范围</h2>
+                </div>
+                
+                <!-- 1.1 概念定义与技术边界 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">1.1 概念定义与技术边界</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态AI是一种融合多种感官模态（包括嗅觉、视觉、文本、声音、味觉等）进行气味识别、生成和感知的人工智能技术。与传统的单模态气味识别系统相比，多模态AI具有显著的技术优势。传统AI通常依赖于特定任务的算法，如逻辑回归、决策树或早期的神经网络，这些方法在固定领域内效果不错，但泛化能力有限。而多模态AI能够同时分析图片、处理音频和读取文本，能够实现对环境的更全面理解。
+                    </p>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5 mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-3">气味多模态AI系统核心组件</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                <span><strong>多模态传感器阵列</strong>：用于采集不同模态的感官数据</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                <span><strong>信号处理模块</strong>：负责对原始传感器信号进行预处理和特征提取</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                <span><strong>多模态融合算法</strong>：将来自不同模态的特征进行整合</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                <span><strong>机器学习模型</strong>：用于气味识别、分类或生成</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                <span><strong>应用接口</strong>：提供与外部系统的交互能力</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        一个典型的多模态气味感知系统架构采用层次化设计。底层是<strong>高精度多模态传感器阵列</strong>，包括电子鼻、电子舌和光谱仪等设备，用于捕捉风味物质的挥发性、水溶性成分及分子结构特征。中层是<strong>多模态数据融合模块</strong>，采用特征级融合方法（如加权平均和向量拼接），构建统一的多模态特征向量，并通过图神经网络（GNN）对异构数据进行关系建模，提取跨模态特征交互信息。顶层是<strong>智能分析与决策模块</strong>，利用深度学习模型实现对复杂气味环境的快速分类和溯源。
+                    </p>
+                </div>
+                
+                <!-- 1.2 技术架构与发展历程 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">1.2 技术架构与发展历程</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态AI的发展历程可以追溯到20世纪80年代。1982年，英国Warwick大学的Persaud和Dodd开发出第一个电子鼻系统，成功利用传感阵列并辅助以指纹识别技术实现了对多种气味的区分识别。这一开创性工作标志着机器嗅觉从单一传感器向多传感器阵列发展的重要转折。
+                    </p>
+                    
+                    <!-- 发展历程图表 -->
+                    <div class="mb-6">
+                        <canvas id="timelineChart" height="300"></canvas>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        进入21世纪后，机器嗅觉技术迎来了快速发展期。2000年后，该领域受益于人工智能和微电子技术的进步，传感器阵列开始与机器学习算法（如支持向量机SVM和神经网络）结合，显著提高了识别精度。2015年的Dream Olfaction Challenge成为该领域发展的重要转折点，该挑战赛提供了来自生物学家的数据，邀请全球参与者创建基于分子结构的气味标签预测模型，随后的Pyrfume项目进一步扩展了可用数据集。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        近年来，深度学习技术的引入为气味多模态AI带来了革命性突破。2022年，Osmo公司的研究团队在《Science》期刊上发表了关于主要气味图谱（POM）的研究成果，该模型使用图神经网络实现了人类水平的气味描述能力。2023年9月，Osmo公司在《Science》期刊上发布了突破性进展，其模型巧妙地将分子结构映射到气味感知，充分利用了图神经网络的强大能力。2025年3月，Osmo公司宣布推出"Generation"平台，号称"全球首家由AI驱动的香氛公司"，利用"嗅觉智能（OI）"把文本、图像灵感转化为可执行的配方，标志着从"预测气味"迈向"生成与配方优化"的读写闭环。
+                    </p>
+                </div>
+                
+                <!-- 1.3 研究范围与数据模态 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">1.3 研究范围与数据模态</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态AI的研究范围涵盖了从分子层面到感知层面的多个层次。在分子层面，研究重点包括分子结构与气味感知之间的关系建模、分子特征提取、气味分子的表示学习等。在传感器层面，研究内容涉及新型敏感材料的开发、传感器阵列的设计优化、信号处理算法的改进等。在算法层面，研究方向包括深度学习模型的设计、多模态融合策略、生成模型的应用等。在应用层面，研究重点关注医疗诊断、环境监测、食品质量控制、香水研发等领域的具体应用。
+                    </p>
+                    
+                    <!-- 数据模态表格 -->
+                    <div class="overflow-x-auto mb-6">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">数据模态</th>
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">采集设备</th>
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">主要应用</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">嗅觉模态</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">电子鼻（E-nose）</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">食品安全检测、医疗诊断、环境监测</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">视觉模态</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">摄像头、光谱仪</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">机器人导航、辅助气味识别、质量控制</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">文本模态</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">数据库、文献、产品说明</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">气味描述、化学成分分析、知识图谱构建</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">听觉模态</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">麦克风、声传感器</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">环境声音分析、机器人目标识别</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">味觉模态</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">电子舌</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">食品饮料风味评估、质量控制</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        在嗅觉模态方面，现代电子鼻系统通常采用金属氧化物半导体、导电聚合物、石英晶体微天平、表面声波等多种传感技术，能够检测ppm到ppb浓度范围内的各种气体。在文本模态方面，大语言模型在处理文本模态方面展现出强大能力，SENSE-LM系统就是一个成功的例子，它结合了BERT语言模型和感觉运动规范等语言资源，在嗅觉和听觉信息提取方面取得了显著进展。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 经典研究部分 -->
+        <section id="classic-research" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-history text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">二、经典研究工作回顾</h2>
+                </div>
+                
+                <!-- 2.1 开创性研究与里程碑 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">2.1 开创性研究与里程碑</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态AI领域的发展历程中涌现出许多具有里程碑意义的研究工作。1982年Persaud和Dodd的电子鼻开创性工作奠定了该领域的基础。他们提出的多传感器阵列概念，通过不同传感器对各种气味分子的交叉响应模式来识别气味，这一思想至今仍是电子鼻技术的核心。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 rounded-lg p-5 border-l-4 border-primary">
+                            <h4 class="font-semibold text-gray-800 mb-2">1982年：第一个电子鼻系统</h4>
+                            <p class="text-gray-700 text-sm">
+                                英国Warwick大学的Persaud和Dodd开发出第一个电子鼻系统，利用传感阵列和指纹识别技术实现了对多种气味的区分识别。
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-5 border-l-4 border-primary">
+                            <h4 class="font-semibold text-gray-800 mb-2">1994年：电子鼻正式定义</h4>
+                            <p class="text-gray-700 text-sm">
+                                Gardner和Bartlett正式定义电子鼻为"一种由具有部分选择性化学传感器阵列和适当模式识别系统组成、能识别简单或复杂气味的仪器"。
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-5 border-l-4 border-primary">
+                            <h4 class="font-semibold text-gray-800 mb-2">2015年：Dream Olfaction Challenge</h4>
+                            <p class="text-gray-700 text-sm">
+                                该挑战赛提供了来自生物学家的数据，邀请全球参与者创建基于分子结构的气味标签预测模型，成为该领域发展的重要转折点。
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-5 border-l-4 border-primary">
+                            <h4 class="font-semibold text-gray-800 mb-2">2017年：IBM图卷积网络研究</h4>
+                            <p class="text-gray-700 text-sm">
+                                IBM研究团队在《Nature》发表研究，使用图卷积网络（GCN）预测基于分子结构的气味强度和愉悦度，建立了化学结构到气味描述的映射。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        进入21世纪后，该领域的研究开始向智能化方向发展。2002年和2012年，IEEE传感器期刊分别发表了人工嗅觉和机器嗅觉的特刊，标志着该领域研究的系统化和专业化。这些特刊汇集了该领域的最新研究成果，推动了技术的快速发展。
+                    </p>
+                </div>
+                
+                <!-- 2.2 基于传感器阵列的经典方法 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">2.2 基于传感器阵列的经典方法</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        早期的电子鼻系统主要基于传感器阵列技术，通过多个具有不同选择性的化学传感器组成阵列，利用传感器对不同气味物质的交叉响应模式来实现气味识别。1982年Persaud和Dodd开发的第一个电子鼻系统使用了三个具有不同相对灵敏度的金属氧化物半导体传感器，能够区分多种类型的气味物质，包括挥发性化合物的混合物和单一气体。
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">早期信号处理方法对比</h4>
+                        <canvas id="signalProcessingChart" height="250"></canvas>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        在传感器技术方面，研究人员开发了多种类型的传感材料。2004年，Tsuji Wellness和France Telecom开发了一种名为Kaori Web的气味生成设备，配备6种不同的气味墨盒。在21世纪初，人工嗅觉领域的研究开始向更高灵敏度和选择性发展，研究人员开始探索纳米材料、导电聚合物、金属有机框架等新型敏感材料。
+                    </p>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5">
+                        <h4 class="font-semibold text-gray-800 mb-3">医疗诊断领域的重要应用</h4>
+                        <p class="text-gray-700 mb-3">
+                            2021年Chen等人开发了一种用于肺癌检测和分期的自开发电子鼻系统。该系统在235个呼吸样本上，使用核主成分分析（KPCA）结合极限梯度提升（XGBoost）取得了最佳结果：
+                        </p>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center">
+                                <i class="fa fa-bar-chart text-primary mr-2"></i>
+                                <span>准确率：93.59%</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa fa-bar-chart text-primary mr-2"></i>
+                                <span>灵敏度：95.60%</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa fa-bar-chart text-primary mr-2"></i>
+                                <span>特异性：91.09%</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa fa-bar-chart text-primary mr-2"></i>
+                                <span>肺癌分期识别准确率：超过80%</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 2.3 机器学习方法的引入与发展 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">2.3 机器学习方法的引入与发展</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        随着机器学习技术的发展，越来越多的先进算法被引入到气味识别领域。支持向量机（SVM）作为一种高效的分类算法，在电子鼻应用中得到了广泛应用。研究表明，SVM在处理高维特征空间和小样本学习方面具有独特优势，特别适合于气味识别这类特征维度高但训练样本有限的问题。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex justify-center mb-3">
+                                <i class="fa fa-cube text-primary text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-center text-gray-800 mb-2">支持向量机(SVM)</h4>
+                            <p class="text-gray-700 text-sm text-center">
+                                擅长处理高维特征空间，在小样本学习中表现优异，广泛应用于早期气味识别系统。
+                            </p>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex justify-center mb-3">
+                                <i class="fa fa-sitemap text-primary text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-center text-gray-800 mb-2">神经网络</h4>
+                            <p class="text-gray-700 text-sm text-center">
+                                BP神经网络、RBF网络等多种结构被应用，能够捕捉复杂的非线性关系。
+                            </p>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex justify-center mb-3">
+                                <i class="fa fa-database text-primary text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-center text-gray-800 mb-2">oMNIST数据集</h4>
+                            <p class="text-gray-700 text-sm text-center">
+                                2022年提出的"嗅觉MNIST数据库"，为研究提供标准化数据集，推动技术发展。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        神经网络方法的引入为气味识别带来了新的突破。BP神经网络、径向基函数（RBF）网络、递归神经网络等多种网络结构被应用于气味识别任务。特别是深度学习技术的兴起，为该领域带来了革命性的变化。2017年IBM研究团队使用图卷积网络（GCN）预测气味强度和愉悦度的工作，开创了深度学习在气味预测领域应用的先河。
+                    </p>
+                </div>
+                
+                <!-- 2.4 深度学习时代的突破 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">2.4 深度学习时代的突破</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        2022年标志着气味多模态AI进入深度学习时代的重要突破。Osmo公司的研究团队在《Science》期刊上发表了关于主要气味图谱（POM）的研究成果，该模型使用图神经网络生成了一个保留感知关系的主要气味图谱，能够对新的气味物质进行气味质量预测。
+                    </p>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5 mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">POM模型的技术创新</h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fa fa-star text-primary mt-1 mr-2"></i>
+                                <span><strong>图神经网络架构</strong>：使用消息传递神经网络（MPNN），将化学结构映射到气味感知</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-star text-primary mt-1 mr-2"></i>
+                                <span><strong>分子表示方法</strong>：每个分子被表示为一个图，原子和键都有详细的特征描述</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-star text-primary mt-1 mr-2"></i>
+                                <span><strong>层次化设计</strong>：包含消息传递层、半径0组合、归约求和、全连接层和sigmoid函数</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-star text-primary mt-1 mr-2"></i>
+                                <span><strong>高相关性</strong>：在感知图谱中的距离与POM中的距离相关性高达R=0.73</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-star text-primary mt-1 mr-2"></i>
+                                <span><strong>人类水平性能</strong>：在400种新气味物质的验证集中，表现比中位数小组成员更可靠</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        2023年，研究人员进一步扩展了POM的应用范围。通过分析POM模型，研究人员发现了一个在分子水平上可计算的气味表示，能够预测几乎所有在嗅觉神经科学中研究的陆生生物的气味诱发受体、神经和行为反应。研究表明，具有相似POM表示的气味化合物更可能在一种物质中共存并在代谢上密切相关；代谢反应序列在POM中也遵循平滑路径，尽管分子结构存在巨大跳跃，这表明代谢的自然统计数据塑造了大脑对嗅觉世界的表示。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 当前热门研究方法 -->
+        <section id="current-methods" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-rocket text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">三、当前热门研究方法</h2>
+                </div>
+                
+                <!-- 3.1 基于Transformer和大语言模型的方法 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">3.1 基于Transformer和大语言模型的方法</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        近年来，Transformer架构和大语言模型在气味多模态AI领域展现出巨大潜力。2024年，研究人员提出了一种创新的算法Transformer（AlgoFormer），它由负责任务预处理的前Transformer、用于迭代优化算法的循环Transformer和用于后处理后产生期望结果的后Transformer组成。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">AlgoFormer架构优势</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-2"></i>
+                                    <span>优于标准Transformer和普通循环Transformer</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-2"></i>
+                                    <span>在神经机器翻译任务上验证了有效性</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-2"></i>
+                                    <span>增强了算法的表达能力和适应性</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">SENSE-LM系统特点</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-2"></i>
+                                    <span>结合BERT语言模型和感觉运动规范</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-2"></i>
+                                    <span>解决粗粒度和细粒度感觉信息提取</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check text-primary mt-1 mr-2"></i>
+                                    <span>在嗅觉和听觉信息提取上有重大突破</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        在气味感知增强方面，研究人员开发了结合大语言模型的先进系统。该系统利用高密度化学电阻传感器阵列（HCSA）结合FPGA加速的肾小球收敛电路（FGCC）和层次图神经网络（HGNN）等先进计算技术，这种仿生方法能够对挥发性有机化合物（VOCs）进行实时自适应响应，提高了气味识别的准确性和效率。
+                    </p>
+                </div>
+                
+                <!-- 3.2 图神经网络在气味分子表示学习中的应用 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">3.2 图神经网络在气味分子表示学习中的应用</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        图神经网络（GNN）在气味分子表示学习中发挥着核心作用，特别是在处理分子结构与气味感知之间的复杂关系方面展现出独特优势。2025年，研究人员提出了一种图注意力卷积网络架构，该架构结合了多层次分子特征提取策略，有效捕获复杂的分子结构及其与气味的关系，同时解决了传统方法的局限性。
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">不同生成模型性能对比</h4>
+                        <canvas id="gnnModelsChart" height="280"></canvas>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5">
+                        <h4 class="font-semibold text-gray-800 mb-3">图神经网络的创新应用</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-800 mb-2">多特征图注意力网络</h5>
+                                <ul class="space-y-1 text-gray-700 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                                        <span>对分子结构进行建模，捕获局部和全局特征</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                                        <span>自动学习全面的分子表示</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                                        <span>提高了气味预测的准确性</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-800 mb-2">POMMix扩展模型</h5>
+                                <ul class="space-y-1 text-gray-700 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                                        <span>用于表示气味混合物的层次化方法</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                                        <span>包含GNN、注意力机制和余弦预测头</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                                        <span>在多个数据集上实现最先进性能</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 3.3 生成对抗网络和扩散模型在气味合成中的应用 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">3.3 生成对抗网络和扩散模型在气味合成中的应用</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        生成模型在气味合成领域取得了突破性进展，特别是生成对抗网络（GANs）和扩散模型的应用。2025年，东京科学大学的研究人员在中本隆道教授的指导下创建了一个名为气味生成扩散（Odor Generative Diffusion）的AI模型，该模型可以根据用户定义的气味描述符自动创建新香水。
+                    </p>
+                    
+                    <div class="border border-gray-200 rounded-lg p-5 mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">气味生成扩散模型工作流程</h4>
+                        <div class="flex flex-col md:flex-row items-center justify-between">
+                            <div class="flex flex-col items-center mb-4 md:mb-0">
+                                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-pencil text-primary text-xl"></i>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">用户输入气味特征</p>
+                            </div>
+                            <i class="fa fa-arrow-right text-gray-300 text-xl hidden md:block"></i>
+                            <i class="fa fa-arrow-down text-gray-300 text-xl md:hidden mb-2"></i>
+                            <div class="flex flex-col items-center mb-4 md:mb-0">
+                                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-cogs text-primary text-xl"></i>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">AI生成化学配置文件</p>
+                            </div>
+                            <i class="fa fa-arrow-right text-gray-300 text-xl hidden md:block"></i>
+                            <i class="fa fa-arrow-down text-gray-300 text-xl md:hidden mb-2"></i>
+                            <div class="flex flex-col items-center mb-4 md:mb-0">
+                                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-flask text-primary text-xl"></i>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">计算精油混合比例</p>
+                            </div>
+                            <i class="fa fa-arrow-right text-gray-300 text-xl hidden md:block"></i>
+                            <i class="fa fa-arrow-down text-gray-300 text-xl md:hidden mb-2"></i>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-gift text-primary text-xl"></i>
+                                </div>
+                                <p class="text-center text-gray-700 font-medium">生成新香水配方</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        扩散模型在气味传感器和数据集增强方面也展现出巨大潜力。研究人员引入了一种新颖的机器学习方法，使用基于扩散的分子生成来增强气味定位准确性，该方法可以单独使用，也可以与带有视觉语言模型（VLM）的自动化嗅觉数据集构建管道一起使用。这种扩散模型的生成过程扩展了化学空间，超越了当前嗅觉数据集和VLM训练数据的限制，能够识别以前未记录的潜在气味分子。
+                    </p>
+                </div>
+                
+                <!-- 3.4 多模态融合的最新技术路径 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">3.4 多模态融合的最新技术路径</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        多模态融合技术在气味AI领域正朝着更加智能和高效的方向发展。在传感器层面，研究人员开发了集成多种传感器的多模态系统。Deep Nose系统集成了由56个不同类型气体传感器组成的传感器阵列，以实现多模态和多维性。该系统通过注入与各种背景气体混合的目标气体来收集数据，并利用Deep Nose AI算法进行分析。
+                    </p>
+                    
+                    <div class="overflow-x-auto mb-6">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">融合层级</th>
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">技术方法</th>
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">优势特点</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">传感器层</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">多模态传感器阵列、忆阻器电路</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">实时数据采集、低功耗、高集成度</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">数据层</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">数据清洗、归一化、去噪</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">提高数据质量、减少噪声干扰</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">特征层</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">加权平均、向量拼接、注意力机制</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">保留细节信息、增强特征表达</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-800 font-medium">决策层</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">多分类器融合、深度学习模型</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">提高决策准确性、增强鲁棒性</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        在硬件集成方面，研究人员开发了基于忆阻器的嗅觉感知及跨模态联想电路。该电路包括三个模块：（1）气味识别模块以忆阻嗅觉神经元为基础实现对两种气味的识别；（2）高级感知模块搭建情感产生电路生成嗅觉情感，并利用忆阻阻值变化实现对其他模态记忆巩固的影响；（3）延时跨模态联想模块基于忆阻变化规律设计延时电路和联想记忆电路，以情感为强化物实现了嗅觉与其他模态信息的延时联想。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 应用领域部分 -->
+        <section id="applications" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-briefcase text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">四、应用领域研究现状</h2>
+                </div>
+                
+                <!-- 4.1 医疗诊断中的气味AI应用 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">4.1 医疗诊断中的气味AI应用</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味AI在医疗诊断领域展现出巨大的应用潜力，特别是在疾病早期检测和个性化医疗方面。电子鼻技术可用于呼出气体中的挥发性有机化合物（VOC）检测，由于其具有非侵入性、快速检测等优势，近年来在疾病诊断中展现出巨大潜力。
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">不同疾病检测准确率对比</h4>
+                        <canvas id="medicalAccuracyChart" height="300"></canvas>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="font-semibold text-gray-800 mb-3">肺癌诊断进展</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>2021年Chen等人开发专用电子鼻系统</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>KPCA结合XGBoost算法实现高准确率</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>创新性实现肺癌分期分类（III期和IV期）</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>分期识别准确率超过80%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="font-semibold text-gray-800 mb-3">其他疾病诊断应用</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>前列腺癌检测：召回率达到91%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>COVID-19检测：基于症状和嗅觉测试，准确率约80%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>妇科疾病：分类误差不超过10%，特异性86%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                    <span>生物电子鼻：利用哺乳动物嗅觉系统，记录稳定数月</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4.2 环境感知与监测应用 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">4.2 环境感知与监测应用</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味AI在环境感知与监测领域发挥着越来越重要的作用，特别是在空气质量监测、工业过程监控、危险气体检测等方面。在大气污染监测方面，由4台"电子鼻"组成的大气污染溯源预警"侦察连"，能够实现24小时实时监测区域内异味污染物的浓度，对大气污染物实施在线监管。
+                    </p>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5 mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">环境监测电子鼻系统功能</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-clock-o text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">24小时连续监测</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-bell text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">实时超标预警</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-area-chart text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">数据分析与可视化</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-map-marker text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">污染溯源定位</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        在空气质量传感器技术方面，Bosch Sensortec发布了BME 688，这是第一款结合气体、湿度、温度和气压传感与创新人工智能（AI）能力的空气质量MEMS传感器，本质上创造了世界上最小的四合一空气质量测量解决方案。
+                    </p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">监测参数</th>
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">应用场景</th>
+                                    <th class="py-3 px-4 border-b text-left text-gray-700 font-semibold">技术优势</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-700">SO₂、H₂S、NH₃</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">工业排放监测、环境质量评估</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">高灵敏度、实时响应</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-700">TVOC（苯、甲苯等）</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">室内空气质量、工业安全</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">低检测限、多组分识别</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-700">甲醛（CH₂O）</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">室内环境、装修污染检测</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">高精度、稳定性好</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-4 border-b text-gray-700">NO₂、Cl₂</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">城市空气质量、工业安全</td>
+                                    <td class="py-3 px-4 border-b text-gray-700">快速检测、抗干扰能力强</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- 4.3 香水研发与产品推荐应用 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">4.3 香水研发与产品推荐应用</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味AI在香水研发和产品推荐领域带来了革命性变化，从传统的人工调配转向智能化设计。奇华顿（Givaudan）作为香氛与美容行业的全球知名企业，推出了以消费者为中心的人工智能（AI）技术，引入了一种将香气转化为色彩图案的新方法。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
+                            <div class="flex justify-center mb-4">
+                                <i class="fa fa-paint-brush text-primary text-3xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-center text-gray-800 mb-3">奇华顿AI技术</h4>
+                            <p class="text-gray-700 text-sm text-center">
+                                将香气转化为色彩图案，捕捉和预测消费者对香精的情感感知，确定色彩、情绪和香气之间的最佳匹配。
+                            </p>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
+                            <div class="flex justify-center mb-4">
+                                <i class="fa fa-mobile text-primary text-3xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-center text-gray-800 mb-3">Aroma-Tune应用</h4>
+                            <p class="text-gray-700 text-sm text-center">
+                                AI驱动的香水配方生成应用，通过对话或输入想法即可将概念转化为标志性香水配方。
+                            </p>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
+                            <div class="flex justify-center mb-4">
+                                <i class="fa fa-microchip text-primary text-3xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-center text-gray-800 mb-3">Symrise Philyra系统</h4>
+                            <p class="text-gray-700 text-sm text-center">
+                                引导调香师探索新组合和材料，帮助更新和改进标志性香水，减少人为偏见。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5">
+                        <h4 class="font-semibold text-gray-800 mb-3">智能香水研发流程创新</h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fa fa-lightbulb-o text-primary mt-1 mr-2"></i>
+                                <span><strong>OdorGPT嗅觉引擎</strong>：将气味想法转化为有形的香水配方，提供化学分析和安全评估</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-lightbulb-o text-primary mt-1 mr-2"></i>
+                                <span><strong>自动化样品制备</strong>：通过宽触摸屏选择原材料，机器人即时生产样品，速度远超传统方法</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-lightbulb-o text-primary mt-1 mr-2"></i>
+                                <span><strong>个性化推荐</strong>：根据用户偏好、情感状态、场合需求等多维度数据提供定制服务</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-lightbulb-o text-primary mt-1 mr-2"></i>
+                                <span><strong>创意激发</strong>：AI系统能够生成人类难以想到的新颖组合，拓展创意边界</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 4.4 其他新兴应用领域 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">4.4 其他新兴应用领域</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        除了上述主要应用领域外，气味AI在其他新兴领域也展现出广阔的应用前景。从机器人技术到虚拟现实，从可穿戴设备到食品安全，气味AI技术正在为多个行业带来创新变革。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">机器人与虚拟现实</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-robot text-primary mt-1 mr-2"></i>
+                                    <span>多模态导航算法：集成视觉和嗅觉，提高气味源定位准确性</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-vr-cardboard text-primary mt-1 mr-2"></i>
+                                    <span>虚拟现实嗅觉交互：构建多模态气味播放器，增强沉浸感</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-gamepad text-primary mt-1 mr-2"></i>
+                                    <span>游戏与影视：气味技术增强用户沉浸感和参与感</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold text-gray-800 mt-6 mb-3">可穿戴设备</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-watch text-primary mt-1 mr-2"></i>
+                                    <span>Aroma Shooter Mini：首款可穿戴气味设备，通过PC和智能手机控制</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-comments text-primary mt-1 mr-2"></i>
+                                    <span>Aroma Message：气味聊天应用，通过气味传递情感</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-heartbeat text-primary mt-1 mr-2"></i>
+                                    <span>健康监测：通过气味分析用户健康状态</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">食品安全与质量控制</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-cutlery text-primary mt-1 mr-2"></i>
+                                    <span>多模态数据融合：电子鼻、GC-MS、NIRS及感官评价数据融合</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-leaf text-primary mt-1 mr-2"></i>
+                                    <span>红茶等级判别：融合多模态数据，分类准确率提升至98%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-tint text-primary mt-1 mr-2"></i>
+                                    <span>食品新鲜度检测：实时监测食品变质过程</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold text-gray-800 mt-6 mb-3">环境心理学与健康</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-smile-o text-primary mt-1 mr-2"></i>
+                                    <span>情绪调节：特定气味影响情绪状态、缓解压力</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-book text-primary mt-1 mr-2"></i>
+                                    <span>认知增强：气味影响记忆形成和学习能力</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-bed text-primary mt-1 mr-2"></i>
+                                    <span>睡眠改善：通过气味调节改善睡眠质量</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来研究趋势与发展展望 -->
+        <section id="future-trends" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-binoculars text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">五、未来研究趋势与发展展望</h2>
+                </div>
+                
+                <!-- 5.1 技术发展趋势 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">5.1 技术发展趋势</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味多模态AI技术正朝着更加智能化、集成化和个性化的方向发展。在传感器技术方面，关键技术进步包括开发具有更高选择性、灵敏度和长期稳定性的新型传感器材料，以及探索更高效、紧凑和高通量的计算平台。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="font-semibold text-gray-800 mb-3">传感器技术发展方向</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>检测精度提升：2025年将实现皮级检测精度</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>尺寸微型化：传感器尺寸不断减小，集成度提高</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>多参数检测：同时检测多种气体成分和环境参数</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>低功耗设计：延长设备续航时间，适合移动应用</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="font-semibold text-gray-800 mb-3">算法与融合技术趋势</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>大语言模型结合：利用预训练语言模型理解气味描述</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>跨模态对齐：更精确的特征映射和语义对齐</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>统一表示学习：构建通用表示空间编码多模态信息</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-arrow-circle-right text-primary mt-1 mr-2"></i>
+                                    <span>边缘计算：在边缘设备上实现实时处理和分析</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        在生成能力方面，未来的气味AI系统不仅能够识别和分类气味，还能够根据给定的描述或需求生成新的气味。这将为香水研发、食品调味、环境香氛等领域带来革命性的变化，实现真正的个性化和定制化生产。
+                    </p>
+                </div>
+                
+                <!-- 5.2 应用拓展前景 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">5.2 应用拓展前景</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        气味AI的应用领域正在快速扩展，未来将在更多领域发挥重要作用。从医疗健康到消费电子，从娱乐产业到工业应用，气味AI技术将为各行各业带来创新机遇。
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-3">2030年气味AI应用预测</h4>
+                        <canvas id="applicationForecastChart" height="300"></canvas>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">医疗健康领域</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-stethoscope text-primary mt-1 mr-2"></i>
+                                    <span>疾病早期检测：通过气味分析实现多种疾病的早期筛查</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-heartbeat text-primary mt-1 mr-2"></i>
+                                    <span>健康监测：实时监测用户健康状态，提供个性化健康建议</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-medkit text-primary mt-1 mr-2"></i>
+                                    <span>康复治疗：利用气味调节情绪，辅助疾病康复</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold text-gray-800 mt-6 mb-3">消费电子领域</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-mobile text-primary mt-1 mr-2"></i>
+                                    <span>智能手机：2030年35%主流手机搭载微型气味模块</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-watch text-primary mt-1 mr-2"></i>
+                                    <span>可穿戴设备：气味提醒、健康监测功能</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-home text-primary mt-1 mr-2"></i>
+                                    <span>智能家居：根据用户偏好自动调节环境气味</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">娱乐与元宇宙</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-gamepad text-primary mt-1 mr-2"></i>
+                                    <span>游戏体验：气味反馈增强游戏沉浸感</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-film text-primary mt-1 mr-2"></i>
+                                    <span>影视娱乐：气味同步技术提升观影体验</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-vr-cardboard text-primary mt-1 mr-2"></i>
+                                    <span>元宇宙：构建虚拟世界的嗅觉体验</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold text-gray-800 mt-6 mb-3">工业与农业应用</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-industry text-primary mt-1 mr-2"></i>
+                                    <span>智能制造：实时监测生产过程，确保产品质量</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-leaf text-primary mt-1 mr-2"></i>
+                                    <span>精准农业：监测作物生长状态，优化种植条件</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-shield text-primary mt-1 mr-2"></i>
+                                    <span>安全预警：危险气体检测，保障工作环境安全</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 5.3 产业生态发展 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">5.3 产业生态发展</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        气味AI产业正处于快速发展阶段，市场规模预计将呈现爆发式增长。根据市场研究，AI香水市场预计将从2024年到2029年增长1812.9亿美元，年复合增长率高达44.1%。该市场的关键机会包括利用AI进行超个性化、利用数据分析技术进步以及满足对功能性香水日益增长的需求。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">市场规模预测</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-line-chart text-primary mt-1 mr-2"></i>
+                                    <span>AI香水市场（2024-2029）：增长1812.9亿美元，CAGR 44.1%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-line-chart text-primary mt-1 mr-2"></i>
+                                    <span>全球数字气味技术市场（2030）：预计达217亿美元</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-line-chart text-primary mt-1 mr-2"></i>
+                                    <span>中国数字气味设备出货量（2025）：预计820万台，占全球41%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-line-chart text-primary mt-1 mr-2"></i>
+                                    <span>印度及东南亚市场：农业检测需求催生45%年均增速</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">技术成本趋势</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fa fa-money text-primary mt-1 mr-2"></i>
+                                    <span>微型化气体传感器：2018年25美元/件降至2023年8.5美元</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-money text-primary mt-1 mr-2"></i>
+                                    <span>气敏材料检测精度：提升至0.1ppm级别</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-money text-primary mt-1 mr-2"></i>
+                                    <span>智能手机气味模块：BOM成本控制在整机1.2%以内</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-money text-primary mt-1 mr-2"></i>
+                                    <span>跨平台兼容成本：标准发布后预计降低30%</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5">
+                        <h4 class="font-semibold text-gray-800 mb-3">产业生态关键要素</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-cogs text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">传感器制造商</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-code text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">算法开发商</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-puzzle-piece text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">系统集成商</p>
+                            </div>
+                            <div class="flex flex-col items-center p-3 border border-gray-200 rounded-lg">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                                    <i class="fa fa-handshake-o text-primary"></i>
+                                </div>
+                                <p class="text-center text-gray-700 text-sm">应用服务商</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 5.4 技术挑战与应对策略 -->
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <h3 class="text-xl md:text-2xl font-semibold text-primary mb-4">5.4 技术挑战与应对策略</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        尽管气味AI技术发展迅速，但仍面临诸多挑战。从技术层面到数据层面，从成本问题到标准化建设，都需要行业各方共同努力来解决。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">主要技术挑战</h4>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-exclamation-triangle text-red-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">传感器稳定性</p>
+                                        <p class="text-sm">长期使用中的漂移问题，环境因素影响</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-exclamation-triangle text-red-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">多模态数据融合</p>
+                                        <p class="text-sm">不同模态数据的异质性，特征对齐困难</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-exclamation-triangle text-red-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">数据稀缺问题</p>
+                                        <p class="text-sm">高质量标注数据不足，个体差异影响</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-exclamation-triangle text-red-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">成本与可扩展性</p>
+                                        <p class="text-sm">高性能设备成本高，难以大规模部署</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">应对策略</h4>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-check-circle text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">加强基础研究</p>
+                                        <p class="text-sm">深入理解嗅觉感知机制，开发新型传感材料</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-check-circle text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">多学科合作</p>
+                                        <p class="text-sm">整合计算机科学、化学、生物学等领域成果</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-check-circle text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">开放数据平台</p>
+                                        <p class="text-sm">建立标准化数据集，促进数据共享和协同创新</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fa fa-check-circle text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">完善标准体系</p>
+                                        <p class="text-sm">制定技术标准和安全规范，确保互操作性</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-5">
+                        <h4 class="font-semibold text-gray-800 mb-3">标准化建设进展</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fa fa-file-text-o text-primary mt-1 mr-2"></i>
+                                <span><strong>ISO/TC 146气味编码规范</strong>：推动行业形成统一的技术协议</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-file-text-o text-primary mt-1 mr-2"></i>
+                                <span><strong>ISO/TC 34气味数字化表征标准</strong>：预计2025年发布，降低跨平台兼容成本</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-file-text-o text-primary mt-1 mr-2"></i>
+                                <span><strong>专利与知识产权</strong>：全球数字气味技术专利已突破2.8万项，年复合增长率31.6%</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-file-text-o text-primary mt-1 mr-2"></i>
+                                <span><strong>技术转让</strong>：2025年跨国专利许可交易额预计突破18亿美元</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 结论部分 -->
+        <section id="conclusion" class="mb-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                        <i class="fa fa-flag-checkered text-primary text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">结论</h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        本文系统梳理了气味多模态AI的研究现状与发展趋势，从技术基础、经典工作、当前方法、应用现状和未来展望等多个维度进行了全面分析。研究表明，气味多模态AI作为一个新兴的跨学科领域，正在经历从实验室研究向产业化应用的重要转变。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        在技术发展方面，从1982年Persaud和Dodd提出电子鼻概念至今，该领域已从传统的单模态传感器阵列发展为基于深度学习、图神经网络、生成对抗网络等前沿技术的多模态融合系统。特别是2022年Osmo公司提出的主要气味图谱（POM）和2025年基于扩散模型的气味生成技术，标志着该领域从识别走向生成的重要突破。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        在应用现状方面，气味AI在医疗诊断、环境监测、香水研发等领域已取得显著成果。在医疗诊断中，电子鼻技术在肺癌、前列腺癌、COVID-19等疾病检测中展现出80-94%的准确率；在环境监测中，实现了24小时实时预警和多参数同时检测；在香水研发中，推动了从传统人工调配向智能化设计的转变。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        展望未来，气味多模态AI将在以下几个方面迎来重要发展机遇：一是技术层面，随着传感器技术的微型化、多模态融合算法的优化、生成模型的成熟，将实现更加精准和智能的气味感知与生成；二是应用层面，在元宇宙、智能医疗、智能制造等新兴领域的推动下，将催生更多创新应用场景；三是产业层面，预计到2030年全球数字气味技术市场规模将达到217亿美元，形成完整的产业生态。
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        然而，该领域仍面临数据稀缺、成本高昂、标准化程度低等挑战。未来需要加强基础研究、推动多学科合作、建立开放平台、完善标准体系，以实现气味多模态AI技术的持续健康发展。随着技术的不断进步和应用的日益广泛，气味多模态AI有望为人类生活带来革命性的变化，开启感官智能的新时代。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚部分 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                    <div class="flex items-center mb-6 md:mb-0">
+                        <i class="fa fa-flask text-primary text-3xl mr-3"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">气味多模态人工智能研究综述</h3>
+                            <p class="text-gray-400">从单模态感知到多模态融合的技术演进</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fa fa-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fa fa-linkedin text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fa fa-github text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/40 transition-colors">
+                            <i class="fa fa-envelope text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4">快速导航</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#summary" class="text-gray-400 hover:text-primary transition-colors">摘要</a></li>
+                                <li><a href="#introduction" class="text-gray-400 hover:text-primary transition-colors">引言</a></li>
+                                <li><a href="#technical-foundation" class="text-gray-400 hover:text-primary transition-colors">技术基础</a></li>
+                                <li><a href="#classic-research" class="text-gray-400 hover:text-primary transition-colors">经典研究</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4">更多内容</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#current-methods" class="text-gray-400 hover:text-primary transition-colors">热门方法</a></li>
+                                <li><a href="#applications" class="text-gray-400 hover:text-primary transition-colors">应用领域</a></li>
+                                <li><a href="#future-trends" class="text-gray-400 hover:text-primary transition-colors">未来展望</a></li>
+                                <li><a href="#conclusion" class="text-gray-400 hover:text-primary transition-colors">结论</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4">相关资源</h4>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">研究论文</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">技术文档</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">数据集下载</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">联系作者</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-gray-500 text-sm">
+                        <p>&copy; 2025 气味多模态人工智能研究综述. 保留所有权利.</p>
+                        <p class="mt-2">本网页基于最新研究成果制作，仅供学术参考使用</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90 focus:outline-none">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 代码 -->
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('opacity-0')) {
+                mobileMenu.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                menuToggle.innerHTML = '<i class="fa fa-times text-xl"></i>';
+            } else {
+                mobileMenu.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                menuToggle.innerHTML = '<i class="fa fa-bars text-xl"></i>';
+            }
+        });
+        
+        // 点击导航链接关闭移动菜单
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                menuToggle.innerHTML = '<i class="fa fa-bars text-xl"></i>';
+            });
+        });
+        
+        // 返回顶部按钮
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+            
+            // 导航栏滚动效果
+            const header = document.querySelector('header');
+            if (window.pageYOffset > 100) {
+                header.classList.add('shadow-lg', 'bg-white/95', 'backdrop-blur-sm');
+                header.classList.remove('shadow-md', 'bg-white');
+            } else {
+                header.classList.remove('shadow-lg', 'bg-white/95', 'backdrop-blur-sm');
+                header.classList.add('shadow-md', 'bg-white');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 图表初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 发展历程图表
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            new Chart(timelineCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['1982年', '1994年', '2000年', '2015年', '2017年', '2022年', '2023年', '2025年'],
+                    datasets: [{
+                        label: '技术发展重要性评分',
+                        data: [65, 72, 80, 85, 90, 95, 97, 99],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.4)',
+                            'rgba(99, 102, 241, 0.5)',
+                            'rgba(99, 102, 241, 0.6)',
+                            'rgba(99, 102, 241, 0.7)',
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(99, 102, 241, 0.9)',
+                            'rgba(99, 102, 241, 0.95)',
+                            'rgba(99, 102, 241, 1.0)'
+                        ],
+                        borderColor: [
+                            'rgba(99, 102, 241, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const year = context[0].label;
+                                    let event = '';
+                                    switch(year) {
+                                        case '1982年': event = '第一个电子鼻系统'; break;
+                                        case '1994年': event = '电子鼻正式定义'; break;
+                                        case '2000年': event = '机器学习算法引入'; break;
+                                        case '2015年': event = 'Dream Olfaction Challenge'; break;
+                                        case '2017年': event = 'IBM图卷积网络研究'; break;
+                                        case '2022年': event = 'Osmo POM模型发表'; break;
+                                        case '2023年': event = 'POM模型扩展应用'; break;
+                                        case '2025年': event = '气味生成扩散模型'; break;
+                                    }
+                                    return `${year}: ${event}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: '技术重要性评分'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '年份'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 2. 早期信号处理方法对比
+            const signalCtx = document.getElementById('signalProcessingChart').getContext('2d');
+            new Chart(signalCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['降维效果', '计算效率', '识别准确率', '噪声鲁棒性', '复杂度'],
+                    datasets: [
+                        {
+                            label: 'PCA',
+                            data: [70, 90, 65, 60, 30],
+                            backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                            borderColor: 'rgba(99, 102, 241, 0.8)',
+                            pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
+                        },
+                        {
+                            label: 'LDA',
+                            data: [80, 85, 75, 70, 40],
+                            backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                            borderColor: 'rgba(139, 92, 246, 0.8)',
+                            pointBackgroundColor: 'rgba(139, 92, 246, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(139, 92, 246, 1)'
+                        },
+                        {
+                            label: 'SVM',
+                            data: [60, 65, 85, 80, 70],
+                            backgroundColor: 'rgba(167, 139, 250, 0.2)',
+                            borderColor: 'rgba(167, 139, 250, 0.8)',
+                            pointBackgroundColor: 'rgba(167, 139, 250, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(167, 139, 250, 1)'
+                        }
+                    ]
+                },
+                options: {
+                    elements: {
+                        line: {
+                            borderWidth: 2
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+            
+            // 3. 不同生成模型性能对比
+            const gnnCtx = document.getElementById('gnnModelsChart').getContext('2d');
+            new Chart(gnnCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['GAE', 'VGAE', 'Transformer', '扩散模型', 'ARGA', 'ARGVa'],
+                    datasets: [
+                        {
+                            label: '有效性分数',
+                            data: [0.75, 0.82, 0.88, 1.0, 1.0, 1.0],
+                            backgroundColor: 'rgba(99, 102, 241, 0.7)',
+                            borderColor: 'rgba(99, 102, 241, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '计算效率',
+                            data: [0.85, 0.78, 0.65, 0.55, 0.60, 0.58],
+                            backgroundColor: 'rgba(139, 92, 246, 0.7)',
+                            borderColor: 'rgba(139, 92, 246, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '不同生成模型性能对比'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1.0,
+                            title: {
+                                display: true,
+                                text: '分数 (0-1)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '生成模型类型'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 4. 不同疾病检测准确率对比
+            const medicalCtx = document.getElementById('medicalAccuracyChart').getContext('2d');
+            new Chart(medicalCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['肺癌检测', '肺癌分期', '前列腺癌', 'COVID-19', '妇科疾病', '一般疾病'],
+                    datasets: [{
+                        label: '准确率 (%)',
+                        data: [93.59, 80, 91, 80, 90, 85],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(99, 102, 241, 0.7)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(167, 139, 250, 0.8)',
+                            'rgba(167, 139, 250, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(99, 102, 241, 1)',
+                            'rgba(99, 102, 241, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(167, 139, 250, 1)',
+                            'rgba(167, 139, 250, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: '气味AI在不同疾病诊断中的准确率'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: '准确率 (%)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '疾病类型'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 5. 2030年气味AI应用预测
+            const appForecastCtx = document.getElementById('applicationForecastChart').getContext('2d');
+            new Chart(appForecastCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                    datasets: [
+                        {
+                            label: '医疗健康',
+                            data: [25, 32, 40, 48, 55, 63, 70, 78],
+                            borderColor: 'rgba(99, 102, 241, 1)',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: '消费电子',
+                            data: [10, 18, 28, 38, 48, 58, 68, 75],
+                            borderColor: 'rgba(139, 92, 246, 1)',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: '娱乐元宇宙',
+                            data: [5, 12, 22, 35, 48, 62, 75, 85],
+                            borderColor: 'rgba(167, 139, 250, 1)',
+                            backgroundColor: 'rgba(167, 139, 250, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: '工业应用',
+                            data: [20, 28, 36, 45, 53, 60, 68, 75],
+                            borderColor: 'rgba(192, 132, 252, 1)',
+                            backgroundColor: 'rgba(192, 132, 252, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '2030年气味AI应用普及率预测 (%)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: '普及率 (%)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '年份'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
